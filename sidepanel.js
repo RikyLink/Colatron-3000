@@ -13,6 +13,8 @@ const names = {
   "https://copilot.microsoft.com/": "Copilot"
 };
 
+const themeSwitchWrapper = document.querySelector('.theme-switch-wrapper');
+
 function showFeedback(url) {
   const name = names[url] || "Interface";
   overlay.textContent = `SYNC: ${name}`;
@@ -22,6 +24,7 @@ function showFeedback(url) {
 
 function showHub() {
   hub.style.display = 'flex';
+  themeSwitchWrapper.style.display = 'block';
   loadingScreen.classList.remove('active');
   iframe.classList.remove('active');
   iframe.src = 'about:blank';
@@ -30,6 +33,7 @@ function showHub() {
 
 function loadAI(url) {
   hub.style.display = 'none';
+  themeSwitchWrapper.style.display = 'none';
   // Oculta o iframe e exibe a tela de loading
   iframe.classList.remove('active');
   loadingScreen.classList.add('active');
@@ -91,3 +95,36 @@ chrome.storage.onChanged.addListener((changes, area) => {
     }
   }
 });
+// ---- THEME SWITCH ----
+const themeCheckbox = document.querySelector('.theme-switch__checkbox');
+
+function applyTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    if (themeCheckbox) themeCheckbox.checked = true;
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (themeCheckbox) themeCheckbox.checked = false;
+  }
+}
+
+// Carregar tema salvo
+const savedTheme = localStorage.getItem('coIA-01-theme');
+if (savedTheme === 'dark') {
+  applyTheme(true);
+} else {
+  applyTheme(false);
+}
+
+// Listener do toggle
+if (themeCheckbox) {
+  themeCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      applyTheme(true);
+      localStorage.setItem('coIA-01-theme', 'dark');
+    } else {
+      applyTheme(false);
+      localStorage.setItem('coIA-01-theme', 'light');
+    }
+  });
+}
