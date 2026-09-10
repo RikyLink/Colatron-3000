@@ -41,13 +41,6 @@ chrome.runtime.onInstalled.addListener(() => {
       contexts: ["action"]
     });
 
-    chrome.contextMenus.create({
-      id: "copilot",
-      parentId: "select-ai",
-      title: "Copilot",
-      contexts: ["action"]
-    });
-
     // ----- MENU NAS PÁGINAS -----
     chrome.contextMenus.create({
       id: "page-select-ai",
@@ -83,12 +76,6 @@ chrome.runtime.onInstalled.addListener(() => {
       contexts: ["page"]
     });
 
-    chrome.contextMenus.create({
-      id: "page-copilot",
-      parentId: "page-select-ai",
-      title: "Copilot",
-      contexts: ["page"]
-    });
   });
 });
 
@@ -99,12 +86,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     "gemini": "https://gemini.google.com/app",
     "deepseek": "https://chat.deepseek.com/",
     "chatgpt": "https://chatgpt.com/",
-    "copilot": "https://copilot.microsoft.com/",
     "page-ai-studio": "https://aistudio.google.com/prompts/new_chat?model=gemini-3-flash-preview",
     "page-gemini": "https://gemini.google.com/app",
     "page-deepseek": "https://chat.deepseek.com/",
-    "page-chatgpt": "https://chatgpt.com/",
-    "page-copilot": "https://copilot.microsoft.com/"
+    "page-chatgpt": "https://chatgpt.com/"
   };
 
   if (urls[info.menuItemId]) {
